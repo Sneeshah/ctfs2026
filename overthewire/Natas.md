@@ -65,6 +65,7 @@ The password is: e4z2Noy3oqwPJUWzJH0dseN67Cn1sy2M
     -looking at the network tab again. Cookie loggedin=0 looks like if we can use curl to set it to 1 this might work
     -curl -u natas5:e4z2Noy3oqwPJUWzJH0dseN67Cn1sy2M -b "loggedin=1" http://natas5.natas.labs.overthewire.org worked
     -Note: Curl is super powerful
+    -Note2: server trusting client-controlled data without verification is dangerous
 
 The password is 7mhjtShJAcld2NYbKHEadnhEwRn2P8VT
 
@@ -117,5 +118,6 @@ The password is: EgjlkzB6E8LJyf2Obt4q7q4ewt5ZWSNv
     -same thing but this time we can not use the characters from large challenge (; | &)
     -inputting a combination of other well known "regex signs" works though. Here .* worked
     -.* /etc/natas_webpass/natas11
+    -since our input is fed driectly into a grep command this works since the 'dictionary.txt' from the code is just appeneded after the file we inout to grep
 
 The password is: VUMQDmuITOEHzhviLE5V0VG9cPMQkyxd
