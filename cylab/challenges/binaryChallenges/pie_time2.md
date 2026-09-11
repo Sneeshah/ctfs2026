@@ -50,6 +50,7 @@ clear is: we need to leak an adress so we can do the math and locate win() so we
 
 https://owasp.org/www-community/attacks/Format_string_attack seems like a good resource.
 Also read through https://cs155.stanford.edu/papers/formatstring-1.2.pdf 
+I also put my notes for these here: [Format String Attack](https://github.com/Sneeshah/notes/blob/main/binary_hacking/format_string_attack.md)
 
 
 
