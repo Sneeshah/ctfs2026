@@ -8,7 +8,7 @@
 
 ## Description
 
-**Lab URL:** `https://0aa60095049127e2843e18db0052002d.web-security-academy.net/`
+**Lab URL:** `https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns`
 
 
 
@@ -36,7 +36,7 @@ To solve the lab, determine the number of columns returned by the query by perfo
 ```
 Database:   Can't be sure of the underlying database
 Input:      URL
-Behavior:   error-based 
+Behavior:   union based sql injection
 ```
 
 #### Vulnerability
