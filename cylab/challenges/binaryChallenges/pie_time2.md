@@ -56,7 +56,7 @@ I also put my notes for these here: [Format String Attack](https://github.com/Sn
 
 
 ### Vulnerability
-- Buffer Overflow (format string vulnerability)
+- Format String Vulnerabilit
 
 <!--
 ### Stack Layout
@@ -144,7 +144,7 @@ finally revealed a useful output:
 ```
 0x75c300d8f083.0x75c300f97620.0x7ffdc9745128.0x100000000.0x64710fcee400.0x64710fcee450.0x5a679c856ff59a16.0x64710fcee1c0.%p.(nil).
 ```
-`0x64710fcee400.` looks similiar to our static address of main `0x0000555555555400`. ASLR keeps the last 12 Bytes the same that is why this is our new main
+`0x64710fcee400.` looks similiar to our static address of main `0x0000555555555400`. ASLR keeps the last 12 Bits the same that is why this is our new main
 ### Step 2 — Exploit
 ```
 nc rescued-float.picoctf.net 54459
