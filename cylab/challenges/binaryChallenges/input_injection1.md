@@ -20,7 +20,7 @@ A friendly program wants to greet you… but its goodbye might say more than it 
 
 #### file + checksec (+ readelf)
 ```
-SUID-BIT: set (s)
+
 Arch:     ELF 64-bit LSB executable, x86-64
 RELRO:    Partial RELRO
 Stack:    No canary found

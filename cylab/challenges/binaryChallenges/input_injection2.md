@@ -17,7 +17,7 @@
 
 #### file + checksec (+ readelf)
 ```
-SUID-BIT: set (s)
+
 Arch:     ELF 64-bit LSB executable, x86-64
 RELRO:    Partial RELRO
 Stack:    No canary found
@@ -102,9 +102,7 @@ picoCTF{us3rn4m3_2_sh3ll_809f901a}
 ---
 ## Exploit
 
-```python
 
-```
 -->
 
 ---
