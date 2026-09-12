@@ -57,7 +57,7 @@ To use an actual UNION attack we need to first find out how many columns are ret
 ## Solution
 
 ### Step 1 - Craft payload
-Since typing all of that into the url and waiting for the website to load using the inbuilt repeater function of burp suite is a must here. 
+Since typing all of that into the url and waiting for the website to load is annoying, using the inbuilt repeater function of burp suite is a must here. 
 
 To find the number of columns we can use the ORDER BY method.
 ```sql

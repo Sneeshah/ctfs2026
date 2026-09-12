@@ -61,7 +61,7 @@ The title suggest to use a method to find the number of returned coolumns
 
 First way to do it:
 ```sql
-category=' ORDER BY 1
+category=' ORDER BY 1--
 ```
 every subsequent input the number is increased until an error is thrown.
 This works if WAFs (Web Application Firewalls) block the Keyword union. ORDER BY is a legitimate input when users sort a product by price or similiar. UNION SELECT is almost never legitimate and might be blocked. ORDER BY is also a bit simpler.
