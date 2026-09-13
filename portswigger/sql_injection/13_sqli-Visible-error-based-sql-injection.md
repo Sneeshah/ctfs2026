@@ -1,4 +1,4 @@
-# Blind SQL injection with conditional errors
+# Visible error-based SQL injection
 
 **Category:** Web Exploitation — SQL Injection  
 **Difficulty:** Practitioner
@@ -8,16 +8,11 @@
 
 ## Description
 
-**Lab URL:** `https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors`
+**Lab URL:** `https://portswigger.net/web-security/sql-injection/blind/lab-sql-injection-visible-error-based`
 
-This lab contains a blind SQL injection vulnerability. The application uses a tracking cookie for analytics, and performs a SQL query containing the value of the submitted cookie.
+ This lab contains a SQL injection vulnerability. The application uses a tracking cookie for analytics, and performs a SQL query containing the value of the submitted cookie. The results of the SQL query are not returned.
 
-The results of the SQL query are not returned, and the application does not respond any differently based on whether the query returns any rows. If the SQL query causes an error, then the application returns a custom error message.
-
-The database contains a different table called users, with columns called username and password. You need to exploit the blind SQL injection vulnerability to find out the password of the administrator user.
-
-To solve the lab, log in as the administrator user. 
-
+The database contains a different table called users, with columns called username and password. To solve the lab, find a way to leak the password for the administrator user, then log in to their account. 
 Hint:
 This lab uses an Oracle database. 
 
