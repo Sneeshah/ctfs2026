@@ -29,7 +29,7 @@ There is a built-in table on Oracle called dual which you can use for this purpo
 - What does the application do? 
     - Still the same basic shop website
 - Where is user input accepted? (forms, URL parameters, headers, cookies)
-    - there is no input field (account login is back) but the user can input text into the url
+    - there is no input field (account login is back) but the user can input text into the url as before. The real input for the sqli happens in the cookie though.
 - What happens with normal input?
     - inputting a normal word instead of the given categories prints the word on the page and shows no results, inputting the given categories works like it should
 
