@@ -10,11 +10,11 @@
 
 **Lab URL:** `https://portswigger.net/web-security/sql-injection/blind/lab-sql-injection-visible-error-based`
 
- This lab contains a SQL injection vulnerability. The application uses a tracking cookie for analytics, and performs a SQL query containing the value of the submitted cookie. The results of the SQL query are not returned.
+This lab contains a blind SQL injection vulnerability. The application uses a tracking cookie for analytics, and performs a SQL query containing the value of the submitted cookie.
 
-The database contains a different table called users, with columns called username and password. To solve the lab, find a way to leak the password for the administrator user, then log in to their account. 
-Hint:
-This lab uses an Oracle database. 
+The results of the SQL query are not returned, and the application does not respond any differently based on whether the query returns any rows or causes an error. However, since the query is executed synchronously, it is possible to trigger conditional time delays to infer information.
+
+To solve the lab, exploit the SQL injection vulnerability to cause a 10 second delay. 
 
 
 ---
