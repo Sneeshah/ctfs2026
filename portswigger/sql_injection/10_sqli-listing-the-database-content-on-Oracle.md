@@ -104,7 +104,7 @@ category=' UNION SELECT USERNAME_AAXYWR, PASSWORD_QWNCTV from USERS_NHYHAM-- -
 ```
 ![oracle admin password](assets/admin-password-oracle.png)
 
-
+Just gotta login with `administrator` and the password shown now to solve the lab.
 ---
 
 ## Real World Impact

