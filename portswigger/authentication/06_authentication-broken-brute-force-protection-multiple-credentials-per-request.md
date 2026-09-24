@@ -1,4 +1,4 @@
-~# Broken brute-force protection, multiple credentials per request
+# Broken brute-force protection, multiple credentials per request
 
 **Category:** Web Exploitation — Authentication
 **Difficulty:** Expert
