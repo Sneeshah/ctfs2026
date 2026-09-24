@@ -41,6 +41,7 @@ Advanced users may want to solve this lab by using a macro or the Turbo Intruder
 - What exactly is vulnerable and why?
     
 As per the lab instructions the victims' password is vulnerable to bruteforcing due to a flaw in the brute-force protection logic.
+
 ---
 
 ## Solution 
