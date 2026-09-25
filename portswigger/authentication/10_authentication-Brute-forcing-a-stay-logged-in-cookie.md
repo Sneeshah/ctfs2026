@@ -9,6 +9,12 @@
 ## Description
 
 **Lab URL:** `https://portswigger.net/web-security/authentication/other-mechanisms/lab-brute-forcing-a-stay-logged-in-cookie`
+ 
+This lab allows users to stay logged in even after they close their browser session. The cookie used to provide this functionality is vulnerable to brute-forcing.
+To solve the lab, brute-force Carlos's cookie to gain access to his My account page.
+
+- Your credentials: wiener:peter
+- Victim's username: carlos 
 
 ---
 
@@ -84,5 +90,5 @@ Hacking this cookie does not just login an attacker. It gets him persistent acce
 ---
 ## Learnings
 
-- cookiers are their own attack surface, which might not be affected by rate limiting/lock outs.
+- cookies are their own attack surface, which might not be affected by rate limiting/lock outs.
 - calibrate the oracle on known cases to save time.
