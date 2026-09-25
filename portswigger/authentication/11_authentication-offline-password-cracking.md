@@ -44,6 +44,7 @@ The comment section is vulnerable to XSS, as inputting a simple `<b>test</b>` co
 
 All the responses when logging in look like from the last lab, not much to see here. The vulnerable comment section is new though.
 There is also an exploit server given by the lab. That server has an accesslog tab.
+
 ---
 
 ### Step 2 - Enumeration / Step 3 - Exploit
