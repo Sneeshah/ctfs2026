@@ -59,7 +59,7 @@ After fully logging in (using the 2FA code in our emails) there is still the sam
 
 ### Step 2 - Enumeration / Step 3 - Exploit
 
-Pretty simple idea now. Using the login we have we can get a successfull log in. Now changing the verify paramter to any account we want to hack (in this case carlos) basically skips the password-login step. Using Burp intruder (or python...) iterating these MFA-Codes is easy.
+Pretty simple idea now. Using the login we have we can get a successfull log in. Now changing the verify paramter to any account we want to hack (in this case carlos) basically skips the password-login step. Using Burp intruder (or python...) iterating these MFA-Codes (they are only 4 digits long) is easy.
 ```python
 import requests
 from threading import Thread
