@@ -24,7 +24,7 @@ This lab's two-factor authentication can be bypassed. You have already obtained 
 - Where is user input accepted? (forms, URL parameters, headers, cookies)
     - There is an account page with a login, the comments below articles can be consideres input too.
 - What happens with normal input?
-    - Correct user logins log the user in normally after using the email client to retrieve the second client
+    - Correct user logins log the user in normally after using the email client to retrieve the second MFA code
 
 ---
 
