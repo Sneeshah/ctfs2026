@@ -49,7 +49,7 @@ And there it is:
 
 The response includes `roleid`.
 
-```
+
 ---
 
 ### Step 2 - Enumeration / Step 3 - Exploit
@@ -60,6 +60,7 @@ Now I can just insert `roleid` into my own dictionary in the request:
     "email":"hallo@hallo.de",
     "roleid":2
 }
+```
 And voilà, access to the admin panel. Deleting carlos account solves the lab.
 
 ---
