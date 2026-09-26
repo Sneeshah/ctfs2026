@@ -1,19 +1,16 @@
-# Password reset broken logic
+# Password reset poisoning via middleware
 
 **Category:** Web Exploitation — Authentication
-**Difficulty:** Apprentice
+**Difficulty:** Practicioner
 **Progress:** Solved
 
 ---
 
 ## Description
 
-**Lab URL:** `https://portswigger.net/web-security/authentication/other-mechanisms/lab-brute-forcing-a-stay-logged-in-cookie`
+**Lab URL:** `https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-poisoning-via-middleware`
  
-This lab's password reset functionality is vulnerable. To solve the lab, reset Carlos's password then log in and access his "My account" page.
-
-- Your credentials: wiener:peter
-- Victim's username: carlos
+This lab is vulnerable to password reset poisoning. The user carlos will carelessly click on any links in emails that he receives. To solve the lab, log in to Carlos's account. You can log in to your own account using the following credentials: wiener:peter. Any emails sent to this account can be read via the email client on the exploit server. 
 
 ---
 
@@ -33,7 +30,7 @@ This lab's password reset functionality is vulnerable. To solve the lab, reset C
 
 #### Vulnerability
 
-The user verification when resetting a password is vulnerable. The token is sufficently random but is not checked properly when resetting a password.
+The password reset method is vulnerable. Allowing the client side usage of `X-Forwarded-Host` creates the possibilities of password reset poisoning.
 
 ---
 
@@ -41,28 +38,42 @@ The user verification when resetting a password is vulnerable. The token is suff
 
 ### Step 1 - Recon / Looking at responses
 
-First I will verify how the process to reset a password works. If I reset my password for 'wiener' my username is just send as data in the body of the POST-request. Then I am sent an email to the labs own email server with a link inside.
-In my case that link looks like this: `https://0a11008a0492f0e282da74a2002c00fc.web-security-academy.net/forgot-password?temp-forgot-password-token=1cns8vns8krrb59gwf9gioqkomgz4d3i` 
-The token that is added to this link to connect it to my account looks like the key here.
-It is not base64 encoding of the accountname or password or a hash of some sorts.
-Sending a new request for a password reset also returns a new token. This means it could be generated depending on the time. Only the newest token seems to be usable. The token is indeed also used in final POST-request body to verify the account. 
-But that is interesting, changing the token in the final post request returns the same found response (the new token can even be different length) so it is not verified properly on the backend.
+The same idea of tokens as in the last lab. This time the token is actually used for the reset though. But the lab instructions give the hint to use password reset poisoning and there is an exploit page in the lab as well. Password reset looks and works like it should. 
+The first post request that triggers the password reset is the interesting one here. 
+Just changing host to `exploit-0a1c00500337a63681864267011000f0.exploit-server.net` (notice: not the full url) does not work, since we want the website to still "create" the password reset.
+`X-Forwarded-Host: exploit-0a1c00500337a63681864267011000f0.exploit-Server.net:` works and returns a 200 response.
+Usually the server combines 'https://', 'host' and the 'token. By using `X-Forwarded-Host` it is possible to set the host part to our own host.
+Usual reset link:
+```
+https://0ac000f5034fa66d81bb43f800d6007a.web-security-academy.net/forgot-password?temp-forgot-password-token=gwakey77zlf2ml7ju6mq2dn8aolwuu9r
+```
+Link after using `X-Forwarded-Host`:
+```
+https://Exploit-0a1c00500337a63681864267011000f0.exploit-Server.net/forgot-password?temp-forgot-password-token=7h115pdspfsp6c2sqcd36mfcw2k3yjh2
+```
 
+`X-Forwarded-Host` tells the server where the user came from and which host is used in the reset-link
+
+In the access log the correct poisoned url is also shown for the password reset so it works.
 
 ---
 
 ### Step 2 - Enumeration / Step 3 - Exploit
 
-Because the backend does not verify the token properly it is possible to just ignore it entirely and change 'wiener' to 'carlos' and set any password we want.
-![password_reset](assets/password_reset.png)
-Now logging in with the new password solves the lab.
+Now the same thing but changing 'wiener' to 'carlos' (our target)
+And his token is `jum1ej6d7heddbwl51mcpjmbiyljj46x`
+
+Now we can simply take a correct password reset url: `https://0ac000f5034fa66d81bb43f800d6007a.web-security-academy.net/forgot-password?temp-forgot-password-token=w6xmreym0hovtfquvdl3ml4f9esx3oio` and change the token to the one just grabbed: 
+`https://0ac000f5034fa66d81bb43f800d6007a.web-security-academy.net/forgot-password?temp-forgot-password-token=jum1ej6d7heddbwl51mcpjmbiyljj46x`
+Set the new password for carlos (who is identified by the token) and login to his account.
 
 ---
 ## Real World Impact
 
-This vulnerability not only gives an attacker the tools to login to accounts that don't belong to him. It also creates a way for the attacker to permanently lock account owners out of their own accounts. Resetting the password is the first step here. But with the new password an attacker can also just change all the settings inside the account, including the email adresses connected, removing any way for owners to get their account back in a resonable time frame.
+By abusing this attackers can again get the passwords of any user that falls for reset and clicks on the link. This means they can potentially also log them out of their account and change everything (including emails and names). This is also not limited to one single account.
 
 ---
 ## Learnings
 
-- Always verify that defense mechanisms like tokens are actually used and not just for show.
+- host headers (like `Host` or `X-Forwarded-*`) are attackable.
+- if cracking the secret is not possible, sometimes it is possible to get the server to tell you the secret.
