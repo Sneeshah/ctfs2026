@@ -43,6 +43,7 @@ In other words: front-end and back-end make the same decision (is this action pe
 No login this time, no access to the admin panel on first glance, but the lab talks about the `X-Original-URL` header.
 Adding this header like this `X-Original-URL: /admin` to a couple of requests showed something interesting when used with just `/` the response already shows the admin panel. Deleting an object here still runs into restricted access but that is because the new url path is: `https://0a29005c04a64028801554ba00ba0046.web-security-academy.net/admin/delete?username=carlos`
 so adding only `/admin` is not enough.
+
 ---
 
 ### Step 2 - Enumeration / Step 3 - Exploit
