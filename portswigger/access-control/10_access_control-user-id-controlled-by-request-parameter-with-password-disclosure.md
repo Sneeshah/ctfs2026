@@ -47,6 +47,7 @@ And looking at the response to this request (`/my-account/?id=carlos`) it is als
 ![carlos_pw](assets/carlos_password.png)
 
 Setting the id to `admin` did not work.
+
 ---
 
 ### Step 2 - Enumeration / Step 3 - Exploit
