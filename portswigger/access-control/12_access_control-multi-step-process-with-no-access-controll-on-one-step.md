@@ -46,8 +46,6 @@ To change a users privileges there are two post requests:
 ![first_request](assets/first_request.png)
 ![second_request](assets/second_request.png)
 
-
-
 ---
 
 ### Step 2 - Enumeration / Step 3 - Exploit

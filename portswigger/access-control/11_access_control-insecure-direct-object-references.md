@@ -55,7 +55,6 @@ Using this password to login as carlos solves the lab.
 
 This bug lets attackers enumerate the files and bulkd download any transcript stored on the server. This can be a huge amount of useless information but there might be sensitive information like in this case a password as well. The fix to this is to do an ownership check before letting a user download a transcript. That way users can only download their own chat with the bot.
 
-
 ---
 ## Learnings
 
