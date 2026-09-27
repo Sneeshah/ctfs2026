@@ -1,0 +1,58 @@
+# Information disclosure on debug page
+**Category:** Web Exploitation — Information disclosure
+**Difficulty:** Apprentice
+**Progress:** Solved
+
+---
+
+## Description
+
+**Lab URL:** `https://portswigger.net/web-security/information-disclosure/exploiting/lab-infoleak-on-debug-page`
+
+This lab contains a debug page that discloses sensitive information about the application. To solve the lab, obtain and submit the SECRET_KEY environment variable. 
+
+---
+
+## Reconnaissance
+
+- What does the application do? 
+    - The website is a shop. No account functionality
+- Where is user input accepted? (forms, URL parameters, headers, cookies)
+    - No user input except maybe the url
+- What happens with normal input?
+    - No normal user input
+
+---
+
+## Analysis
+
+
+#### Vulnerability
+
+In this case the vulnerability is not securing the debug page from unauthorized access. Normal users should not be able to visit such sensitive information. It is questionable if this info should be open to the client-side at all though.
+
+---
+
+## Solution 
+
+### Step 1 - Recon / Looking at responses
+
+No `/robots.txt` or `/sitemap.xml` . No secret key in the websites html either.
+Looking through the responses. The lab mentions it is about a debug page so using the search function to look for debug in every response.
+And te response right when loading the webpage actually leaks the debug page as a comment `<!-- <a href=/cgi-bin/phpinfo.php>Debug</a> -->`
+That means the debug page lives at `https://0a8e002103ae64d8809a03d300420088.web-security-academy.net/cgi-bin/phpinfo.php`
+And the secret key is also there:
+![secret_key](assets/secret_key.png)
+So the solution to submit is: `bm25b3qad0oek4o2nd5gc7vuespwr148`
+
+---
+
+
+## Real World Impact
+
+Leaking a secret key is a disaster. In Frameworks it can for example be used to sign sessions or cookies, leaking it means an attacker can forge any session or cookie he wants in login as anyone.`phpinfo.php` is a diagnostic page and dumps the whole environment meaning the whole thing is a gold mine of information. 
+
+---
+## Learnings
+
+- sometimes there are debug pages left in production - often times they are hinted at in comments of the html (either source code or responses)
