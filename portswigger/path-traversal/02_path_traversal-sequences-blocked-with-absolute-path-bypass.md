@@ -1,6 +1,6 @@
 # File path traversal, traversal sequences blocked with absolute path bypass
 **Category:** Web Exploitation — Path traversal
-**Difficulty:** Apprentice
+**Difficulty:** Practicioner
 **Progress:** Solved
 
 ---
