@@ -55,5 +55,5 @@ This vulnerability lets any user access any readable file, like passwd or config
 ---
 ## Learnings
 
-- nexsting beats stripping non-recursively.
+- nesting beats stripping non-recursively.
 - nesting forbidden patterns inside themselves is an easy way to circumvent (`....//`, `..././`. `....\/` can all work)
