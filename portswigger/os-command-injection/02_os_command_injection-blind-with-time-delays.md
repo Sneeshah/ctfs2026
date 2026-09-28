@@ -18,11 +18,11 @@ To solve the lab, exploit the blind OS command injection vulnerability to cause 
 ## Reconnaissance
 
 - What does the application do? 
-    - The website is a shop. Every item also has the functionality to check its stock in different locations.
+    - The website is a shop. There is a feedback form too
 - Where is user input accepted? (forms, URL parameters, headers, cookies)
-    - No input anywhere on the website
+    - Only the feedback form accepts input
 - What happens with normal input?
-    - No input anywhere on the website
+    - When fedback is submitted an email with feedback is sent.
 
 ---
 
@@ -31,7 +31,8 @@ To solve the lab, exploit the blind OS command injection vulnerability to cause 
 
 #### Vulnerability
 
-This is textbook os command injection - the app takes input from a user and feeds it straight into a shell command (similiar to sql injections). The intended command probably looked like reportstock.sh <productID> <storeID>
+This is textbook os command injection - the app takes input from a user and feeds it straight into a shell command (similiar to sql injections). The only challenge here is that this injection does not instantly return output in the response, making it a blind injection.
+
 
 ---
 
@@ -39,30 +40,23 @@ This is textbook os command injection - the app takes input from a user and feed
 
 ### Step 1 - Recon / Looking at responses
 
-When checking the stock a POST-request is send to the server with the specific `productid` and `storeID`.
-Now there are only 3 stores - so what happens if `storeId` is set to smth else than 1, 2 or 3. 
-The answer is the website does not work properly but returns a two-digit number - no matter the input. Same happens when tampering with `productID`.
-It also happens when one or both paramters are strings which makes no sense at all.
-When appending a `"` to a paramter a syntax error is returned so it seems like this input is fed straight into some kind of shell command.
-Using `&` to run `echo "hello"` does not work since `&` is the form field seperator here.
-`productId=55&storeId=45 | echo "hello"` returns `hello` so we can inject commands. 
+Since the lab is talking about a blind injection lets use the trick we learned: `& ping -c 10 127.0.0.1 &` to see if the server actually executes our command. The trailing `&` is needed so the arguments after it do not glue onto the ping command and break it.
+The POST-request sends the inputted data like this `csrf=6v2b9htV2eDSg2NOGaBMtu4WCikd6ins&name=hello&email=hello%40hello.de&subject=sd&message=Hello`
+Trying one paramater at a time and replacing its value with `hello%26%20%70%69%6e%67%20%2d%63%20%31%30%20%31%32%37%2e%30%2e%30%2e%31%20%26&`. `%26%20%70%69%6e%67%20%2d%63%20%31%30%20%31%32%37%2e%30%2e%30%2e%31%20%26&` is just the URL-encoded ping command.
 
 ---
 ### Step 2 - Enumeration / Exploitation
 
-`productId=55&storeId=45 | whoami` returns the current user `peter-72KaOs` and the lab is solved.
-Alternatively to use `&` it can be encoded like this:
-productId=55&storeId=45%26%20%77%68%6f%61%6d%69
+The injection only worked on the email paramter. We know that since the response did only come 10 seconds after the request. That also solves the lab.
 
 ---
 ## Real World Impact
+
 
 Dangerous vulnerability, the attacker can run any command here. That means reading, stealing or deleting any file including credentials, API keys etc. Even creating a backdoor for easier access is possible. Basically a full server compromise right here.
 
 ---
 ## Learnings
 
-- works like sqli just a different backend (shell vs database)
-- `;` = run sequentially, `&&` run if first command succeeds, `||` run if first fails, `&` background first command and run second command, `|` pipe, `0xa` seperates with newline
-- metacharacters that are special url characters need to be encoded to work
-- if even nonesensical input returns output it is a tell that the input is used as an argument for something
+- time can be an oracle for OS command injection. 
+- wrapping payloads into `&....&` isolates the command from the parameters
