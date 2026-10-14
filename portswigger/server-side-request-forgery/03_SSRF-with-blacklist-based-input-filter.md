@@ -43,6 +43,7 @@ Again the url is encoded so we also have to send encoded urls.
 Using `http://localhost/admin` doesn't work and is blocked for security reasons. So a filter is in place.
 Using `127.0.0.1` or `2130706433`, `017700000001` or even `127.1` is also blocked.
 Cutting `admin` out and works for example `stockApi=http://127.1/?productId=3&storeId=1`
+
 ---
 ### Step 2 - Enumeration / Exploitation
 
