@@ -1,6 +1,6 @@
 # Web shell upload via path traversal
 **Category:** Web Exploitation — file upload vulnerability
-**Difficulty:** Practicioner
+**Difficulty:** Practitioner
 **Progress:** Solved
 
 ---
