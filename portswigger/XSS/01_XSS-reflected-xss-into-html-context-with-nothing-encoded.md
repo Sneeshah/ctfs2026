@@ -39,15 +39,15 @@ Exploitation requires the attacker to deliver a crafted URL to a victim, who mus
 
 Encoding special html characters like `<`, `>`, `"` ... in the websites output, using the appropriate encoding for the context the data is used in (url, attribute, javascript, html body, CSS) causes the browser to render these characters as text and thus neutralizes the injection.
 
-Another defensive measure to use is using the Content- Security Policy header. (CSP). It disallows inline scrips so even if the encoding fails the script is blocked.
+Another defensive measure to use is using the Content-Security-Policy header. (CSP). It disallows inline scripts so even if the encoding fails the script is blocked.
 
 
 ## References
 
-- CWE-79: Improper Neutralization of Input During Web Page Generation (Cross-site Scripting)
-- OWASP: Cross-Site Scripting (XSS)
-- PortSwigger: Reflected XSS
-- `https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html`
+- [CWE-79 Cross-site Scripting](https://cwe.mitre.org/data/definitions/79.html)
+- [OWASP: Cross-Site Scripting (XSS)](https://community.owasp.org/attacks/xss/)
+- [Portswigger XSS Cheatsheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+- [Portswigger reflected XSS](https://portswigger.net/web-security/cross-site-scripting/reflected)
 
 ## Notes / Learnings
 
