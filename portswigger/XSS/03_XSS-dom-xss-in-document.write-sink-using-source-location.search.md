@@ -21,14 +21,13 @@ When searching for `abc123` the website greets us with the same answer as before
     Inside the HTML it looks like this:
 
     ![abc123](assets/abc123.png)
-
+    
     It is also referenced again a bit lower in the code:
 
     ![abc123_referenced](assets/abc123_referenced.png)
 
 2. Since the referenced line is `<img src="/resources/images/tracker.gif?searchTerms=abc123">` we know how the whole thing looks in the end.
 Using the Debugger tab the dev tools finding the sink is possible looking at the line above. A search for the keywords `tracker` or `searchTerms` should find the sink. 
-
     ![document_write](assets/document_write.png)
 
     Setting breakpoint and reloading the page shows us what will be written in the query variable after the breakpoint:
