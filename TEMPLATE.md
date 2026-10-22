@@ -1,8 +1,11 @@
 # <Vulnerability class + context, e.g. "Reflected XSS into HTML context with nothing encoded">
  
 **Severity:**  <!-- High / Medium / Low + one-line justification. Needs victim interaction (e.g. reflected XSS) → usually Medium. No interaction / persistent (e.g. stored XSS) → High. -->
+
 **Location:**  <!-- exact entry point, e.g. GET /path , `param` parameter -->
+
 **Status:**    <!-- Solved / In progress -->
+
 **Lab URL:**   <!-- url -->
  
 ## Description
