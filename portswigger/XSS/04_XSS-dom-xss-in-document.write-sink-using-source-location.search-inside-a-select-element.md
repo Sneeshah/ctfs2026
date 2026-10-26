@@ -13,8 +13,7 @@ The site's check-stock feature takes the input of a user to determine which loca
  
 ## Steps to Reproduce
  
-
- 
+  
 1. The DOM-based XSS again relies on the document.write function but this time the vulnerability is in the stock checker function. The script that actually checks the stock looks like this:
     ![stocker_checker](assets/stock_checker.png)
 
